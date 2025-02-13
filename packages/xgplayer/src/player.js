@@ -1321,6 +1321,7 @@ class Player extends MediaProxy {
     this.hasStart = false
     this._useAutoplay = false
     root.removeAttribute(PLATER_ID)
+    media.removeAttribute(PLATER_ID)
     this.updateAcc('destroy')
     this._unbindEvents()
     this._detachSourceEvents(this.media)
@@ -1343,7 +1344,7 @@ class Player extends MediaProxy {
     }
     !innerContainer &&
     media instanceof window.Node &&
-      root.contains(media) &&
+      root.contains(media) && !this.config.videoEl &&
       root.removeChild(media);
     ['topBar', 'leftBar', 'rightBar', 'innerContainer'].map((item) => {
       this[item] && root.removeChild(this[item])

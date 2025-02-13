@@ -29,6 +29,52 @@ util.createDom = function (el = 'div', tpl = '', attrs = {}, cname = '') {
 }
 
 /**
+ * @param { HTMLElement } dom
+ * @returns { HTMLElement | null }
+ */
+util.getAttributes = function (dom) {
+  const attributes = {}
+  for (const attr of dom.attributes) {
+    attributes[attr.name] = attr.value
+  }
+  return attributes
+}
+
+
+/**
+ * @param { HTMLElement } dom
+ * @param { {[propName: string]: any } } attrs
+ * @returns { HTMLElement | null }
+ */
+util.setAttributes = function (dom, attrs = {}) {
+  Object.keys(attrs).forEach(item => {
+    const key = item
+    const value = attrs[item]
+    if (value) {
+      dom.setAttribute(key, value)
+    }
+  })
+  return dom
+}
+
+/**
+ * @param { HTMLElement } dom
+ * @param { {[propName: string]: any } } attrs
+ * @returns { HTMLElement | null }
+ */
+util.replaceAttributes = function (dom, attrs = {}) {
+  const attributes = util.getAttributes(dom)
+  Object.keys(attributes).forEach(attr => {
+    if (attrs[attr]) {
+      dom.setAttribute(attr, attrs[attr])
+    } else {
+      dom.removeAttribute(attr)
+    }
+  })
+  return dom
+}
+
+/**
  *
  * @param { string } html
  * @param { {[propName: string]: any} } [attrs={}]

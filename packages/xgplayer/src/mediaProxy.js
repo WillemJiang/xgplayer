@@ -182,10 +182,13 @@ class MediaProxy extends EventEmitter {
       this.mediaConfig.muted = true
     }
 
+    if (options.videoEl) {
+      this._videoAttributes = Util.getAttributes(options.videoEl)
+    }
     /**
      * @type { HTMLVideoElement | HTMLAudioElement | HTMLElement | IMediaProxy | null }
      */
-    this.media = Util.createDom(this.mediaConfig.mediaType, '', this.mediaConfig, '')
+    this.media = options.videoEl ? Util.setAttributes(options.videoEl, this.mediaConfig) : Util.createDom(this.mediaConfig.mediaType, '', this.mediaConfig, '')
 
     if (options.defaultPlaybackRate) {
       this.media.defaultPlaybackRate = this.media.playbackRate = options.defaultPlaybackRate
@@ -405,6 +408,9 @@ class MediaProxy extends EventEmitter {
       }
       this.media.removeAttribute('src') // empty source
       this.media.load()
+      if (this._videoAttributes) {
+        Util.replaceAttributes(this.media, this._videoAttributes)
+      }
     }
     this._currentTime = 0
     this._duration = 0
